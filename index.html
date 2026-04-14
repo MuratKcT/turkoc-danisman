@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Türkkoç Danışmanlık — Güvenceniz, Önceliğimiz</title>
+  <meta name="description" content="Türkkoç Danışmanlık — Sigorta ve hasar danışmanlığında güvenilir çözüm ortağınız.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       TOKENS
+    ============================================================ */
+    :root {
+      --bg-deep:     #0f0f11;
+      --bg-mid:      #1a1a1c;
+      --bg-card:     #242426;
+      --bg-border:   #3a3a3c;
+      --copper:      #b87333;
+      --copper-lt:   #d4956a;
+      --copper-pale: #ead5b8;
+      --white:       #ffffff;
+      --white-dim:   #e5e5e7;
+      --white-muted: #8e8e93;
+      --font-h:      'Cormorant Garamond', Georgia, serif;
+      --font-b:      'Inter', -apple-system, sans-serif;
+      --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ============================================================
+       RESET / BASE
+    ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg-deep);
+      color: var(--white);
+      font-family: var(--font-b);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; }
+
+    img, canvas { display: block; }
+
+    /* ============================================================
+       CURSOR GLOW
+    ============================================================ */
+    .cursor-glow {
+      pointer-events: none;
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,115,51,.055) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      will-change: left, top;
+      transition: left .08s linear, top .08s linear;
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #navbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.75rem 3.5rem;
+      transition: background .45s var(--ease-out), padding .45s var(--ease-out);
+    }
+
+    #navbar.scrolled {
+      background: rgba(15,15,17,.88);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      padding: 1.1rem 3.5rem;
+      border-bottom: 1px solid rgba(184,115,51,.18);
+    }
+
+    .nav-logo {
+      font-family: var(--font-h);
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--copper); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.8rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--white-muted);
+      font-size: .78rem;
+      font-weight: 400;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--copper-lt); }
+
+    .nav-cta {
+      border: 1px solid var(--copper);
+      color: var(--copper);
+      padding: .62rem 1.6rem;
+      font-size: .72rem;
+      font-family: var(--font-b);
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: background .3s, color .3s;
+    }
+    .nav-cta:hover { background: var(--copper); color: var(--bg-deep); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* gradient vignette */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 60%, transparent 40%, rgba(15,15,17,.75) 100%),
+        linear-gradient(to bottom, rgba(15,15,17,.15) 0%, rgba(15,15,17,.55) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 920px;
+      padding: 0 2rem;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .68rem;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+    }
+
+    .hero-title {
+      font-family: var(--font-h);
+      font-size: clamp(3.4rem, 8vw, 7.2rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      margin-bottom: 2rem;
+      opacity: 0;
+    }
+    .hero-title strong {
+      font-weight: 700;
+      display: block;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--copper-lt);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--white-muted);
+      max-width: 580px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+      font-weight: 300;
+      opacity: 0;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1.4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--copper) 0%, var(--copper-lt) 100%);
+      color: var(--bg-deep);
+      border: none;
+      padding: 1rem 2.6rem;
+      font-size: .8rem;
+      font-family: var(--font-b);
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .3s var(--ease-out), box-shadow .3s;
+      clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 11px 100%, 0 calc(100% - 11px));
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 45px rgba(184,115,51,.38);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      background: transparent;
+      color: var(--white-dim);
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 1rem 2.6rem;
+      font-size: .8rem;
+      font-family: var(--font-b);
+      font-weight: 400;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .3s, color .3s;
+    }
+    .btn-ghost:hover { border-color: var(--copper); color: var(--copper); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .55rem;
+      opacity: 0;
+    }
+    .hero-scroll-txt {
+      font-size: .6rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--white-muted);
+    }
+    .hero-scroll-bar {
+      width: 1px;
+      height: 52px;
+      background: linear-gradient(to bottom, var(--copper), transparent);
+      animation: scrollBar 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollBar {
+      0%, 100% { opacity: .25; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.15); }
+    }
+
+    /* ============================================================
+       SHARED UTILITIES
+    ============================================================ */
+    .section-wrap { max-width: 1240px; margin: 0 auto; }
+
+    .eyebrow {
+      display: block;
+      font-size: .66rem;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: .9rem;
+    }
+
+    .section-title {
+      font-family: var(--font-h);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.18;
+      color: var(--white);
+      margin-bottom: 1.4rem;
+    }
+    .section-title strong { font-weight: 600; }
+
+    .section-desc {
+      font-size: .95rem;
+      color: var(--white-muted);
+      line-height: 1.85;
+      font-weight: 300;
+    }
+
+    .divider {
+      width: 54px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--copper), var(--copper-lt));
+      margin: 1.3rem 0 2rem;
+    }
+    .divider.center { margin: 1.3rem auto 2rem; }
+
+    .h-rule {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,115,51,.35), transparent);
+    }
+
+    /* Reveal */
+    .rv {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .85s var(--ease-out), transform .85s var(--ease-out);
+    }
+    .rv.in { opacity: 1; transform: translateY(0); }
+    .rv-d1 { transition-delay: .1s; }
+    .rv-d2 { transition-delay: .2s; }
+    .rv-d3 { transition-delay: .3s; }
+    .rv-d4 { transition-delay: .4s; }
+    .rv-d5 { transition-delay: .5s; }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    #services {
+      padding: 8rem 3.5rem;
+      background: var(--bg-mid);
+    }
+
+    .services-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .svc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-border);
+      padding: 3rem 3rem 2.4rem;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: border-color .4s, transform .45s var(--ease-out);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .svc-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--copper), var(--copper-lt));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .45s var(--ease-out);
+    }
+    .svc-card:hover::before { transform: scaleX(1); }
+    .svc-card:hover { border-color: rgba(184,115,51,.38); }
+
+    /* spotlight */
+    .svc-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(184,115,51,.06) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity .4s;
+      pointer-events: none;
+    }
+    .svc-card:hover::after { opacity: 1; }
+
+    .svc-num {
+      position: absolute;
+      top: 2rem; right: 2.5rem;
+      font-family: var(--font-h);
+      font-size: 5rem;
+      font-weight: 700;
+      color: rgba(184,115,51,.07);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .svc-icon {
+      width: 52px; height: 52px;
+      margin-bottom: 2rem;
+    }
+    .svc-icon svg {
+      width: 100%; height: 100%;
+      stroke: var(--copper);
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .svc-card h3 {
+      font-family: var(--font-h);
+      font-size: 1.65rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .svc-card p {
+      font-size: .88rem;
+      color: var(--white-muted);
+      line-height: 1.85;
+      font-weight: 300;
+    }
+
+    .svc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin-top: 1.6rem;
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--copper);
+      transition: gap .3s;
+    }
+    .svc-link:hover { gap: .75rem; }
+    .svc-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ============================================================
+       QUOTE / PARALLAX
+    ============================================================ */
+    #quote {
+      padding: 7.5rem 3.5rem;
+      background: var(--bg-deep);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+    .orb-1 { width: 520px; height: 520px; background: var(--copper); opacity: .055; top: -130px; right: -100px; }
+    .orb-2 { width: 380px; height: 380px; background: var(--copper); opacity: .045; bottom: -80px; left: -80px; }
+
+    .quote-txt {
+      font-family: var(--font-h);
+      font-size: clamp(1.9rem, 4vw, 3.6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      max-width: 860px;
+      margin: 0 auto 1.8rem;
+      line-height: 1.42;
+      position: relative;
+      z-index: 1;
+    }
+    .quote-txt em { font-style: normal; color: var(--copper-lt); }
+    .quote-author {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--white-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    #about {
+      padding: 8rem 3.5rem;
+      background: var(--bg-deep);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      max-width: 1240px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .about-visual-wrap {
+      position: relative;
+      height: 560px;
+    }
+
+    #about-canvas {
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--bg-border);
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: -1.6rem;
+      right: -1.6rem;
+      background: linear-gradient(135deg, var(--copper), var(--copper-lt));
+      color: var(--bg-deep);
+      padding: 1.6rem 1.8rem;
+      text-align: center;
+      min-width: 140px;
+    }
+    .badge-num {
+      display: block;
+      font-family: var(--font-h);
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .badge-lbl {
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-top: .3rem;
+      display: block;
+    }
+
+    .about-features {
+      margin: 2.2rem 0 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+    }
+    .feat {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: .88rem;
+      color: var(--white-dim);
+      font-weight: 300;
+    }
+    .feat-dot { width: 5px; height: 5px; background: var(--copper); flex-shrink: 0; }
+
+    /* ============================================================
+       STATS
+    ============================================================ */
+    #stats {
+      padding: 5.5rem 3.5rem;
+      background: linear-gradient(135deg, #180e04, #1a1a1c 55%, #0e0e10);
+      border-top: 1px solid rgba(184,115,51,.2);
+      border-bottom: 1px solid rgba(184,115,51,.2);
+      position: relative;
+      overflow: hidden;
+    }
+    #stats::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(184,115,51,.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 2rem;
+      max-width: 1240px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .stat-num {
+      display: block;
+      font-family: var(--font-h);
+      font-size: clamp(3rem, 5vw, 4.6rem);
+      font-weight: 600;
+      color: var(--copper);
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .stat-lbl {
+      font-size: .7rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--white-muted);
+    }
+
+    /* ============================================================
+       WHY US
+    ============================================================ */
+    #why-us {
+      padding: 8rem 3.5rem;
+      background: var(--bg-mid);
+    }
+
+    .why-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 5rem;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.4rem;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .why-card {
+      background: var(--bg-deep);
+      border: 1px solid var(--bg-border);
+      padding: 2.6rem 2.4rem;
+      transition: transform .4s var(--ease-out), border-color .4s;
+    }
+    .why-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(184,115,51,.32);
+    }
+
+    .why-icon {
+      width: 48px; height: 48px;
+      border: 1px solid rgba(184,115,51,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.6rem;
+      transition: border-color .4s, background .4s;
+    }
+    .why-card:hover .why-icon {
+      border-color: var(--copper);
+      background: rgba(184,115,51,.06);
+    }
+    .why-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--copper);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .why-card h3 {
+      font-family: var(--font-h);
+      font-size: 1.45rem;
+      font-weight: 500;
+      margin-bottom: .9rem;
+    }
+    .why-card p {
+      font-size: .85rem;
+      color: var(--white-muted);
+      line-height: 1.85;
+      font-weight: 300;
+    }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    #contact {
+      padding: 8rem 3.5rem;
+      background: var(--bg-deep);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-form {
+      margin-top: 4rem;
+      display: grid;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .form-field label {
+      font-size: .65rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--white-muted);
+    }
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-border);
+      color: var(--white);
+      padding: 1rem 1.2rem;
+      font-family: var(--font-b);
+      font-size: .88rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color .3s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: var(--bg-border); }
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus { border-color: var(--copper); }
+    .form-field textarea { resize: vertical; min-height: 138px; }
+    .form-field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1.1rem center; }
+    .form-field select option { background: var(--bg-card); }
+
+    .form-note {
+      font-size: .75rem;
+      color: var(--white-muted);
+      text-align: center;
+      letter-spacing: .04em;
+      margin-top: .3rem;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: #0a0a0c;
+      border-top: 1px solid var(--bg-border);
+      padding: 4.5rem 3.5rem 2.2rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: 1240px;
+      margin: 0 auto 3rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-h);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--white);
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .footer-logo span { color: var(--copper); }
+    .footer-brand p {
+      font-size: .85rem;
+      color: var(--white-muted);
+      line-height: 1.85;
+      max-width: 270px;
+      font-weight: 300;
+    }
+
+    .footer-col h4 {
+      font-size: .65rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.5rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .8rem; }
+    .footer-col a { font-size: .85rem; color: var(--white-muted); transition: color .3s; font-weight: 300; }
+    .footer-col a:hover { color: var(--copper-lt); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--bg-border);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    .footer-bottom p { font-size: .72rem; color: var(--white-muted); }
+    .footer-legal { display: flex; gap: 2rem; }
+    .footer-legal a { font-size: .72rem; color: var(--white-muted); transition: color .3s; }
+    .footer-legal a:hover { color: var(--copper); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1100px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual-wrap { height: 420px; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .why-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      #navbar { padding: 1.1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero, #services, #about, #stats, #why-us, #contact, #quote { padding: 5rem 1.5rem; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .why-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-legal { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor glow -->
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav id="navbar">
+    <span class="nav-logo">Türk<span>koç</span></span>
+    <ul class="nav-links">
+      <li><a href="#services">Hizmetler</a></li>
+      <li><a href="#about">Hakkımızda</a></li>
+      <li><a href="#why-us">Neden Biz</a></li>
+      <li><a href="#contact">İletişim</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Bize Ulaşın</a>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">Sigorta &amp; Hasar Danışmanlığı</span>
+      <h1 class="hero-title">
+        Güvenceniz,<br>
+        <em>Bizim</em> <strong>Önceliğimiz</strong>
+      </h1>
+      <p class="hero-sub">
+        Hasar tespitinden sigorta ekspertizine, teknik analizden hukuki desteğe kadar
+        her aşamada yanınızda olan güvenilir danışmanlık.
+      </p>
+      <div class="hero-btns">
+        <a href="#services" class="btn-primary">Hizmetlerimiz</a>
+        <a href="#contact" class="btn-ghost">İletişime Geçin</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll" id="hero-scroll">
+      <span class="hero-scroll-txt">Keşfedin</span>
+      <div class="hero-scroll-bar"></div>
+    </div>
+  </section>
+
+  <div class="h-rule"></div>
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section id="services">
+    <div class="services-header">
+      <span class="eyebrow rv">Uzmanlık Alanlarımız</span>
+      <div class="divider center"></div>
+      <h2 class="section-title rv rv-d1">Kapsamlı <strong>Danışmanlık</strong> Hizmetleri</h2>
+      <p class="section-desc rv rv-d2">
+        Sektördeki derin bilgi birikimimiz ve deneyimli ekibimizle her türlü sigorta ve
+        hasar sürecinde profesyonel çözümler sunuyoruz.
+      </p>
+    </div>
+
+    <div class="services-grid">
+
+      <div class="svc-card rv">
+        <span class="svc-num">01</span>
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3>Hasar Tespiti &amp; Ekspertiz</h3>
+        <p>Trafik, yangın, su baskını ve her türlü sigorta hasarında sahaya inen uzman kadromuzla kapsamlı ve tarafsız hasar tespiti gerçekleştiriyoruz. Raporlarımız sektörde referans alınmaktadır.</p>
+        <a href="#contact" class="svc-link">
+          Detaylı Bilgi
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="svc-card rv rv-d1">
+        <span class="svc-num">02</span>
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        </div>
+        <h3>Sigorta Ekspertizi</h3>
+        <p>Sigortalı ile sigorta şirketi arasında bağımsız arabulucu rolü üstlenerek her iki tarafın haklarını gözeten, şeffaf ve güvenilir ekspertiz hizmetleri sunuyoruz.</p>
+        <a href="#contact" class="svc-link">
+          Detaylı Bilgi
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="svc-card rv rv-d2">
+        <span class="svc-num">03</span>
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <h3>Teknik Danışmanlık</h3>
+        <p>İnşaat, mühendislik ve makine branşlarında uzman mühendislerimizle teknik hasar analizleri, maliyet hesaplamaları ve onarım projesi danışmanlığı sağlıyoruz.</p>
+        <a href="#contact" class="svc-link">
+          Detaylı Bilgi
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="svc-card rv rv-d3">
+        <span class="svc-num">04</span>
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+        </div>
+        <h3>Hukuki Destek &amp; İtiraz</h3>
+        <p>Sigorta itiraz süreçlerinde, tazminat davalarında ve poliçe anlaşmazlıklarında hukuk uzmanlarımızla iş birliği yaparak haklarınızı en etkin biçimde koruyoruz.</p>
+        <a href="#contact" class="svc-link">
+          Detaylı Bilgi
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="h-rule"></div>
+
+  <!-- ============================================================
+       QUOTE
+  ============================================================ -->
+  <section id="quote">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <p class="quote-txt rv">"Bir hasarı çözmek değil,<br><em>güveni yeniden inşa etmek</em> için buradayız."</p>
+    <div class="divider center rv rv-d1"></div>
+    <p class="quote-author rv rv-d2">Türkkoç Danışmanlık</p>
+  </section>
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section id="about">
+    <div class="about-grid section-wrap">
+
+      <div class="about-visual-wrap rv">
+        <canvas id="about-canvas"></canvas>
+        <div class="about-badge">
+          <span class="badge-num">15+</span>
+          <span class="badge-lbl">Yıllık<br>Deneyim</span>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <span class="eyebrow rv">Biz Kimiz</span>
+        <div class="divider rv rv-d1"></div>
+        <h2 class="section-title rv rv-d1">Güven üzerine kurulu<br><strong>bir miras</strong></h2>
+        <p class="section-desc rv rv-d2" style="margin-bottom:1.4rem">
+          Türkkoç Danışmanlık, on beş yılı aşkın sektör deneyimiyle sigorta ve hasar danışmanlığında
+          Türkiye'nin önde gelen firmalarından biri olarak hizmet vermektedir.
+        </p>
+        <p class="section-desc rv rv-d3">
+          Alanında uzman mühendis, eksper ve hukuk danışmanlarından oluşan kadromuz;
+          bireylere ve kurumsal müşterilere hızlı, şeffaf ve tarafsız çözümler sunar.
+        </p>
+        <div class="about-features rv rv-d4">
+          <div class="feat"><div class="feat-dot"></div><span>Lisanslı ve sertifikalı uzman eksperler</span></div>
+          <div class="feat"><div class="feat-dot"></div><span>24 saat içinde saha müdahalesi</span></div>
+          <div class="feat"><div class="feat-dot"></div><span>Tüm sigorta branşlarında kapsamlı hizmet</span></div>
+          <div class="feat"><div class="feat-dot"></div><span>%98 müşteri memnuniyet oranı</span></div>
+        </div>
+        <a href="#contact" class="btn-primary rv rv-d5">Tanışalım</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS
+  ============================================================ -->
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-item rv">
+        <span class="stat-num" data-target="5000" data-suffix="+">0</span>
+        <span class="stat-lbl">Çözülen Hasar Dosyası</span>
+      </div>
+      <div class="stat-item rv rv-d1">
+        <span class="stat-num" data-target="98" data-suffix="%">0</span>
+        <span class="stat-lbl">Müşteri Memnuniyeti</span>
+      </div>
+      <div class="stat-item rv rv-d2">
+        <span class="stat-num" data-target="15" data-suffix="+">0</span>
+        <span class="stat-lbl">Yıllık Sektör Deneyimi</span>
+      </div>
+      <div class="stat-item rv rv-d3">
+        <span class="stat-num" data-target="24" data-suffix="sa">0</span>
+        <span class="stat-lbl">Müdahale Süresi</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WHY US
+  ============================================================ -->
+  <section id="why-us">
+    <div class="why-header">
+      <span class="eyebrow rv">Fark Yaratan Değerler</span>
+      <div class="divider center rv rv-d1"></div>
+      <h2 class="section-title rv rv-d1">Neden <strong>Türkkoç?</strong></h2>
+    </div>
+
+    <div class="why-grid section-wrap">
+
+      <div class="why-card rv">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Tarafsız &amp; Bağımsız</h3>
+        <p>Sigorta şirketlerinden bağımsız hareket ederek her zaman müvekkilin en yüksek çıkarını ön planda tutarız.</p>
+      </div>
+
+      <div class="why-card rv rv-d1">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Hızlı Müdahale</h3>
+        <p>Hasar bildiriminin ardından 24 saat içinde sahada olup süreçleri hızla başlatıyoruz.</p>
+      </div>
+
+      <div class="why-card rv rv-d2">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Kanıtlanmış Uzmanlık</h3>
+        <p>On beş yılı aşkın deneyim ve binlerce çözüme kavuşturulmuş dosyayla sektörün referans noktasıyız.</p>
+      </div>
+
+      <div class="why-card rv rv-d3">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3>Uzman Kadro</h3>
+        <p>Mühendisler, eksperler ve hukukçulardan oluşan multidisipliner ekibimiz her türlü hasara hazırdır.</p>
+      </div>
+
+      <div class="why-card rv rv-d1">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <h3>Şeffaf Süreç</h3>
+        <p>Müvekkillere sürecin her aşamasında düzenli bilgi vererek tam şeffaflıkla hizmet sunarız.</p>
+      </div>
+
+      <div class="why-card rv rv-d2">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h3>Kapsamlı Çözüm</h3>
+        <p>Tespiten raporlamaya, itirazdan uzlaşmaya kadar sürecin tamamını tek çatı altında yönetiyoruz.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="h-rule"></div>
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contact">
+    <div class="orb orb-1" style="opacity:.04; top:-80px; right:-80px;"></div>
+    <div class="contact-wrap">
+      <span class="eyebrow rv">İletişim</span>
+      <div class="divider center rv rv-d1"></div>
+      <h2 class="section-title rv rv-d1">Hemen <strong>Başlayalım</strong></h2>
+      <p class="section-desc rv rv-d2">
+        Hasar veya sigorta sürecinizle ilgili danışmanlık almak için bizimle iletişime geçin.
+        Uzmanlarımız en kısa sürede size dönecektir.
+      </p>
+
+      <form class="contact-form rv rv-d3" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Ad Soyad</label>
+            <input type="text" placeholder="Adınız Soyadınız">
+          </div>
+          <div class="form-field">
+            <label>Telefon</label>
+            <input type="tel" placeholder="+90 (___) ___ __ __">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>E-posta</label>
+            <input type="email" placeholder="ornek@email.com">
+          </div>
+          <div class="form-field">
+            <label>Hizmet Türü</label>
+            <select>
+              <option value="">Seçiniz...</option>
+              <option>Hasar Tespiti</option>
+              <option>Sigorta Ekspertizi</option>
+              <option>Teknik Danışmanlık</option>
+              <option>Hukuki Destek</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Mesajınız</label>
+          <textarea placeholder="Hasar durumunuzu veya talebinizi kısaca açıklayınız..."></textarea>
+        </div>
+        <div style="text-align:center;margin-top:.6rem">
+          <button type="submit" class="btn-primary" style="border:none;cursor:pointer;font-family:var(--font-b)">
+            Mesaj Gönder
+          </button>
+        </div>
+        <p class="form-note">* İletişim bilgileri yakında güncellenecektir.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo">Türk<span>koç</span></span>
+        <p>Sigorta ve hasar danışmanlığında güvenilir çözüm ortağınız. On beş yılı aşkın deneyimle yanınızdayız.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Hizmetler</h4>
+        <ul>
+          <li><a href="#services">Hasar Tespiti</a></li>
+          <li><a href="#services">Sigorta Ekspertizi</a></li>
+          <li><a href="#services">Teknik Danışmanlık</a></li>
+          <li><a href="#services">Hukuki Destek</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <ul>
+          <li><a href="#about">Hakkımızda</a></li>
+          <li><a href="#why-us">Neden Biz</a></li>
+          <li><a href="#">Ekibimiz</a></li>
+          <li><a href="#">Referanslar</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <ul>
+          <li><a href="#">info@turkkocdanisman.com</a></li>
+          <li><a href="#">+90 (___) ___ __ __</a></li>
+          <li><a href="#contact">İletişim Formu</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Türkkoç Danışmanlık. Tüm hakları saklıdır.</p>
+      <div class="footer-legal">
+        <a href="#">Gizlilik Politikası</a>
+        <a href="#">Kullanım Şartları</a>
+        <a href="#">KVKK</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       THREE.JS
+  ============================================================ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+  /* ============================================================
+     HERO — THREE.JS SCENE
+  ============================================================ */
+  (function () {
+    const canvas = document.getElementById('hero-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 14;
+
+    /* lights */
+    scene.add(new THREE.AmbientLight(0x0a0604, 1));
+    const pL1 = new THREE.PointLight(0xb87333, 4, 35);
+    pL1.position.set(6, 6, 6);
+    scene.add(pL1);
+    const pL2 = new THREE.PointLight(0xcf9a5c, 2.5, 24);
+    pL2.position.set(-6, -4, 4);
+    scene.add(pL2);
+
+    /* geometries pool */
+    const geoPool = [
+      new THREE.IcosahedronGeometry(1, 0),
+      new THREE.OctahedronGeometry(1, 0),
+      new THREE.TetrahedronGeometry(1, 0),
+      new THREE.DodecahedronGeometry(.85, 0),
+    ];
+
+    const shapes = [];
+    for (let i = 0; i < 28; i++) {
+      const geo = geoPool[Math.floor(Math.random() * geoPool.length)];
+      const scale = .15 + Math.random() * .75;
+      const opacity = .06 + Math.random() * .22;
+      const mat = new THREE.MeshBasicMaterial({
+        color: 0xb87333,
+        wireframe: true,
+        transparent: true,
+        opacity,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.scale.setScalar(scale);
+      mesh.position.set(
+        (Math.random() - .5) * 34,
+        (Math.random() - .5) * 22,
+        (Math.random() - .5) * 10 - 2
+      );
+      mesh.rotation.set(
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2
+      );
+      scene.add(mesh);
+      shapes.push({
+        mesh,
+        rx: (Math.random() - .5) * .007,
+        ry: (Math.random() - .5) * .007,
+        rz: (Math.random() - .5) * .004,
+        fSpd: .25 + Math.random() * .6,
+        fAmp: .25 + Math.random() * .55,
+        fOff: Math.random() * Math.PI * 2,
+        baseY: mesh.position.y,
+      });
+    }
+
+    /* particles */
+    const pCount = 180;
+    const pPos = new Float32Array(pCount * 3);
+    for (let i = 0; i < pCount; i++) {
+      pPos[i * 3]     = (Math.random() - .5) * 44;
+      pPos[i * 3 + 1] = (Math.random() - .5) * 32;
+      pPos[i * 3 + 2] = (Math.random() - .5) * 16 - 3;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const pMat = new THREE.PointsMaterial({ color: 0xb87333, size: .07, transparent: true, opacity: .45 });
+    const particles = new THREE.Points(pGeo, pMat);
+    scene.add(particles);
+
+    /* mouse */
+    let mx = 0, my = 0;
+    document.addEventListener('mousemove', e => {
+      mx = (e.clientX / window.innerWidth  - .5) * 2;
+      my = (e.clientY / window.innerHeight - .5) * 2;
+    });
+
+    /* resize */
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+
+    /* animate */
+    let t = 0;
+    (function loop() {
+      requestAnimationFrame(loop);
+      t += .01;
+      shapes.forEach(s => {
+        s.mesh.rotation.x += s.rx;
+        s.mesh.rotation.y += s.ry;
+        s.mesh.rotation.z += s.rz;
+        s.mesh.position.y = s.baseY + Math.sin(t * s.fSpd + s.fOff) * s.fAmp;
+      });
+      particles.rotation.y += .0007;
+      camera.position.x += (mx * 1.6 - camera.position.x) * .018;
+      camera.position.y += (-my * 1.1 - camera.position.y) * .018;
+      camera.lookAt(0, 0, 0);
+      renderer.render(scene, camera);
+    })();
+  })();
+
+  /* ============================================================
+     ABOUT — THREE.JS SCENE
+  ============================================================ */
+  (function () {
+    const canvas = document.getElementById('about-canvas');
+    if (!canvas) return;
+    const wrap = canvas.parentElement;
+    const W = wrap.offsetWidth || 560;
+    const H = wrap.offsetHeight || 560;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(W, H);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, W / H, .1, 100);
+    camera.position.z = 8;
+
+    scene.add(new THREE.AmbientLight(0x1a0f06, 2));
+    const dL = new THREE.DirectionalLight(0xcf9a5c, 3.5);
+    dL.position.set(5, 5, 5);
+    scene.add(dL);
+    const dL2 = new THREE.DirectionalLight(0xb87333, 2);
+    dL2.position.set(-3, -2, 2);
+    scene.add(dL2);
+
+    /* central body */
+    const cGeo = new THREE.DodecahedronGeometry(2, 0);
+    const cMat = new THREE.MeshPhongMaterial({
+      color: 0x2a1505, emissive: 0x3d1a04,
+      shininess: 90, transparent: true, opacity: .72,
+    });
+    const cMesh = new THREE.Mesh(cGeo, cMat);
+    scene.add(cMesh);
+
+    /* wireframe shell */
+    const wGeo = new THREE.DodecahedronGeometry(2.04, 0);
+    const wMat = new THREE.MeshBasicMaterial({ color: 0xb87333, wireframe: true, transparent: true, opacity: .3 });
+    const wMesh = new THREE.Mesh(wGeo, wMat);
+    scene.add(wMesh);
+
+    /* orbiting satellites */
+    const sats = [
+      { geo: new THREE.OctahedronGeometry(.42, 0), ang: 0,    r: 4,    spd: .004  },
+      { geo: new THREE.TetrahedronGeometry(.38, 0), ang: 2.1,  r: 4.2,  spd: -.005 },
+      { geo: new THREE.IcosahedronGeometry(.32, 0), ang: 4.2,  r: 3.8,  spd: .006  },
+    ].map(d => {
+      const mat = new THREE.MeshBasicMaterial({ color: 0xcf9a5c, wireframe: true, transparent: true, opacity: .5 });
+      const mesh = new THREE.Mesh(d.geo, mat);
+      scene.add(mesh);
+      return { mesh, ...d };
+    });
+
+    let t = 0;
+    (function loop() {
+      requestAnimationFrame(loop);
+      t += .008;
+      cMesh.rotation.y += .0035; cMesh.rotation.x += .0018;
+      wMesh.rotation.y += .0035; wMesh.rotation.x += .0018;
+      sats.forEach(s => {
+        s.ang += s.spd;
+        s.mesh.position.set(
+          Math.cos(s.ang) * s.r,
+          Math.sin(s.ang * .65) * 1.6,
+          Math.sin(s.ang) * s.r * .5
+        );
+        s.mesh.rotation.x += .022;
+        s.mesh.rotation.y += .016;
+      });
+      dL.position.x = Math.sin(t * .5) * 5;
+      dL.position.y = Math.cos(t * .3) * 3;
+      renderer.render(scene, camera);
+    })();
+
+    window.addEventListener('resize', () => {
+      const W2 = wrap.offsetWidth || 560;
+      const H2 = wrap.offsetHeight || 560;
+      renderer.setSize(W2, H2);
+      camera.aspect = W2 / H2;
+      camera.updateProjectionMatrix();
+    });
+  })();
+
+  /* ============================================================
+     NAV SCROLL
+  ============================================================ */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 70);
+  }, { passive: true });
+
+  /* ============================================================
+     HERO ENTRANCE
+  ============================================================ */
+  window.addEventListener('load', () => {
+    const els = [
+      { el: document.querySelector('.hero-eyebrow'), delay: 400 },
+      { el: document.querySelector('.hero-title'),   delay: 720 },
+      { el: document.querySelector('.hero-sub'),     delay: 1020 },
+      { el: document.querySelector('.hero-btns'),    delay: 1300 },
+      { el: document.getElementById('hero-scroll'),  delay: 1750 },
+    ];
+    els.forEach(({ el, delay }) => {
+      if (!el) return;
+      el.style.transform = 'translateY(22px)';
+      setTimeout(() => {
+        el.style.transition = 'opacity 1.1s cubic-bezier(0.22,1,0.36,1), transform 1.1s cubic-bezier(0.22,1,0.36,1)';
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
+      }, delay);
+    });
+  });
+
+  /* ============================================================
+     SCROLL REVEAL
+  ============================================================ */
+  const rvObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(el => rvObs.observe(el));
+
+  /* ============================================================
+     COUNTER ANIMATION
+  ============================================================ */
+  const ctrObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      let val = 0;
+      const step = target / (2000 / 16);
+      const timer = setInterval(() => {
+        val += step;
+        if (val >= target) { val = target; clearInterval(timer); }
+        el.textContent = Math.floor(val).toLocaleString('tr-TR') + suffix;
+      }, 16);
+      ctrObs.unobserve(el);
+    });
+  }, { threshold: .5 });
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => ctrObs.observe(el));
+
+  /* ============================================================
+     CURSOR GLOW
+  ============================================================ */
+  const glow = document.getElementById('cursor-glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+  });
+
+  /* ============================================================
+     CARD 3D TILT
+  ============================================================ */
+  document.querySelectorAll('.svc-card, .why-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top)  / r.height;
+      card.style.transform = `perspective(1100px) rotateX(${(y - .5) * 7}deg) rotateY(${(x - .5) * -7}deg) translateZ(4px)`;
+      card.style.setProperty('--mx', (x * 100) + '%');
+      card.style.setProperty('--my', (y * 100) + '%');
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+
+  /* ============================================================
+     PARALLAX ORBS ON SCROLL
+  ============================================================ */
+  const orb1 = document.querySelector('#quote .orb-1');
+  const orb2 = document.querySelector('#quote .orb-2');
+  window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    if (orb1) orb1.style.transform = `translateY(${sy * .07}px)`;
+    if (orb2) orb2.style.transform = `translateY(${-sy * .055}px)`;
+  }, { passive: true });
+  </script>
+
+</body>
+</html>
