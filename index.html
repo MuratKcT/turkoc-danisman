@@ -748,6 +748,109 @@
     }
 
     /* ============================================================
+       OFFICES
+    ============================================================ */
+    .offices-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+      text-align: left;
+    }
+
+    .office-card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-border);
+      padding: 2rem;
+      position: relative;
+    }
+    .office-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--copper), var(--copper-lt));
+    }
+    .office-card .office-tag {
+      font-size: .6rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: .9rem;
+      display: block;
+    }
+    .office-card h3 {
+      font-family: var(--font-h);
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: .75rem;
+    }
+    .office-card address {
+      font-style: normal;
+      font-size: .85rem;
+      color: var(--white-muted);
+      line-height: 1.85;
+      font-weight: 300;
+    }
+
+    /* ============================================================
+       TEAM CONTACTS
+    ============================================================ */
+    .team-contacts {
+      margin-top: 3.5rem;
+    }
+    .team-contacts-title {
+      font-size: .6rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.5rem;
+      display: block;
+      text-align: left;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      text-align: left;
+    }
+    .team-person {
+      background: var(--bg-mid);
+      border: 1px solid var(--bg-border);
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+      transition: border-color .3s;
+    }
+    .team-person:hover { border-color: rgba(184,115,51,.4); }
+    .team-person .person-name {
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .team-person .person-phone {
+      font-size: .82rem;
+      color: var(--copper-lt);
+      font-weight: 300;
+      letter-spacing: .03em;
+    }
+    .team-person .person-phone a {
+      color: inherit;
+      transition: color .3s;
+    }
+    .team-person .person-phone a:hover { color: var(--white); }
+
+    @media (max-width: 768px) {
+      .offices-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .team-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
        FOOTER
     ============================================================ */
     footer {
@@ -1105,7 +1208,56 @@
         Uzmanlarımız en kısa sürede size dönecektir.
       </p>
 
-      <form class="contact-form rv rv-d3" onsubmit="return false;">
+      <!-- Offices -->
+      <div class="offices-grid rv rv-d2">
+        <div class="office-card">
+          <span class="office-tag">Ana Ofis</span>
+          <h3>Türk Koç Danışmanlık</h3>
+          <address>
+            Donanmacı Mahallesi, 1722 Sokak<br>
+            Güçeli İş Merkezi, No:9, Kat:2, Kapı No:208<br>
+            Karşıyaka — İZMİR
+          </address>
+        </div>
+        <div class="office-card">
+          <span class="office-tag">Şube — Van</span>
+          <h3>Van Şubesi</h3>
+          <address>
+            İpekyolu Vali Mithat Bey Merkezi<br>
+            Sıhke Caddesi, Bağdat İş Hanı, Kat:2, Daire:113<br>
+            İpekyolu — VAN
+          </address>
+        </div>
+      </div>
+
+      <!-- Team Contacts -->
+      <div class="team-contacts rv rv-d3">
+        <span class="team-contacts-title">Ekibimizle İletişime Geçin</span>
+        <div class="team-grid">
+          <div class="team-person">
+            <span class="person-name">Gülşen Demirci</span>
+            <span class="person-phone"><a href="tel:+905516201850">0551 620 18 50</a></span>
+          </div>
+          <div class="team-person">
+            <span class="person-name">Av. Ahmet Suat Şahin</span>
+            <span class="person-phone"><a href="tel:+905333456470">0533 345 64 70</a></span>
+          </div>
+          <div class="team-person">
+            <span class="person-name">Bayram Çelik</span>
+            <span class="person-phone"><a href="tel:+905416472612">0541 647 26 12</a></span>
+          </div>
+          <div class="team-person">
+            <span class="person-name">Gamze İlal</span>
+            <span class="person-phone"><a href="tel:+905338133577">0533 813 35 77</a></span>
+          </div>
+          <div class="team-person">
+            <span class="person-name">Berke Doğan</span>
+            <span class="person-phone"><a href="tel:+905352958081">0535 295 80 81</a></span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form rv rv-d4" onsubmit="return false;">
         <div class="form-row">
           <div class="form-field">
             <label>Ad Soyad</label>
@@ -1141,7 +1293,6 @@
             Mesaj Gönder
           </button>
         </div>
-        <p class="form-note">* İletişim bilgileri yakında güncellenecektir.</p>
       </form>
     </div>
   </section>
@@ -1176,9 +1327,11 @@
       <div class="footer-col">
         <h4>İletişim</h4>
         <ul>
-          <li><a href="#">info@turkkocdanisman.com</a></li>
-          <li><a href="#">+90 (___) ___ __ __</a></li>
+          <li><a href="tel:+905516201850">0551 620 18 50</a></li>
+          <li><a href="tel:+905333456470">0533 345 64 70</a></li>
           <li><a href="#contact">İletişim Formu</a></li>
+          <li style="color:var(--white-muted);font-size:.8rem;margin-top:.4rem">Karşıyaka, İZMİR</li>
+          <li style="color:var(--white-muted);font-size:.8rem">İpekyolu, VAN</li>
         </ul>
       </div>
     </div>
