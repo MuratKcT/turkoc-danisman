@@ -1257,25 +1257,25 @@
         </div>
       </div>
 
-      <form class="contact-form rv rv-d4" onsubmit="return false;">
+      <form class="contact-form rv rv-d4" id="contact-form">
         <div class="form-row">
           <div class="form-field">
             <label>Ad Soyad</label>
-            <input type="text" placeholder="Adınız Soyadınız">
+            <input type="text" name="name" placeholder="Adınız Soyadınız" required>
           </div>
           <div class="form-field">
             <label>Telefon</label>
-            <input type="tel" placeholder="+90 (___) ___ __ __">
+            <input type="tel" name="phone" placeholder="+90 (___) ___ __ __" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label>E-posta</label>
-            <input type="email" placeholder="ornek@email.com">
+            <input type="email" name="email" placeholder="ornek@email.com">
           </div>
           <div class="form-field">
             <label>Hizmet Türü</label>
-            <select>
+            <select name="service">
               <option value="">Seçiniz...</option>
               <option>Hasar Tespiti</option>
               <option>Sigorta Ekspertizi</option>
@@ -1286,13 +1286,14 @@
         </div>
         <div class="form-field">
           <label>Mesajınız</label>
-          <textarea placeholder="Hasar durumunuzu veya talebinizi kısaca açıklayınız..."></textarea>
+          <textarea name="message" placeholder="Hasar durumunuzu veya talebinizi kısaca açıklayınız..."></textarea>
         </div>
         <div style="text-align:center;margin-top:.6rem">
-          <button type="submit" class="btn-primary" style="border:none;cursor:pointer;font-family:var(--font-b)">
+          <button type="submit" id="form-submit-btn" class="btn-primary" style="border:none;cursor:pointer;font-family:var(--font-b)">
             Mesaj Gönder
           </button>
         </div>
+        <p id="form-msg" style="text-align:center;margin-top:1rem;font-size:.85rem;display:none"></p>
       </form>
     </div>
   </section>
@@ -1628,6 +1629,54 @@
       card.style.setProperty('--my', (y * 100) + '%');
     });
     card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+
+  /* ============================================================
+     CONTACT FORM — N8N WEBHOOK
+  ============================================================ */
+  const N8N_WEBHOOK = 'https://BURAYA-VPS-IP:5678/webhook/turkoc-form';
+
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const btn = document.getElementById('form-submit-btn');
+    const msg = document.getElementById('form-msg');
+    const form = e.target;
+
+    const data = {
+      name:    form.name.value.trim(),
+      phone:   form.phone.value.trim(),
+      email:   form.email.value.trim(),
+      service: form.service.value,
+      message: form.message.value.trim(),
+    };
+
+    btn.textContent = 'Gönderiliyor...';
+    btn.disabled = true;
+    msg.style.display = 'none';
+
+    try {
+      const res = await fetch(N8N_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        msg.textContent = 'Mesajınız iletildi. En kısa sürede size döneceğiz.';
+        msg.style.color = 'var(--copper-lt)';
+        form.reset();
+      } else {
+        throw new Error('Sunucu hatası');
+      }
+    } catch (err) {
+      msg.textContent = 'Bir hata oluştu. Lütfen telefon ile iletişime geçin.';
+      msg.style.color = '#e06c6c';
+    } finally {
+      msg.style.display = 'block';
+      btn.textContent = 'Mesaj Gönder';
+      btn.disabled = false;
+    }
   });
 
   /* ============================================================
