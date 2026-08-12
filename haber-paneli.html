@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kaza Haber Paneli — Türkkoç Danışmanlık</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0f0f11; --bg-mid:#1a1a1c; --bg-card:#242426; --bg-border:#3a3a3c;
+    --copper:#b87333; --copper-lt:#d4956a; --copper-pale:#ead5b8;
+    --white:#fff; --white-dim:#e5e5e7; --white-muted:#8e8e93;
+    --hata:#d4705a;
+    --font-h:'Cormorant Garamond',Georgia,serif;
+    --font-b:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --ease-out:cubic-bezier(.22,1,.36,1);
+    --trafik:#d4956a; --is:#7ba7d4; --yangin:#d4705a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg-deep); color:var(--white-dim);
+    font-family:var(--font-b); font-size:15px; line-height:1.55; min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  [hidden]{display:none !important}
+
+  /* ---------- Giriş ekranı ---------- */
+  .giris{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:1.5rem;
+  }
+  .giris-kart{
+    width:100%; max-width:380px; text-align:center;
+    background:var(--bg-mid); border:1px solid var(--bg-border);
+    border-radius:3px; padding:2.75rem 2rem;
+  }
+  .logo{
+    font-family:var(--font-h); font-size:1.9rem; font-weight:700;
+    color:var(--white); letter-spacing:.01em; margin-bottom:.15rem;
+  }
+  .logo span{color:var(--copper)}
+  .giris-kart .sub{
+    font-size:.7rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--white-muted); margin-bottom:2rem;
+  }
+  .giris-kart label{
+    display:block; text-align:left; font-size:.72rem; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--white-muted); margin-bottom:.5rem;
+  }
+  .alan{
+    width:100%; font-family:var(--font-b); font-size:.95rem; color:var(--white-dim);
+    background:var(--bg-deep); border:1px solid var(--bg-border); border-radius:2px;
+    padding:.75rem .9rem; outline:none; transition:border-color .25s var(--ease-out);
+  }
+  .alan:focus{border-color:var(--copper)}
+  .giris-btn{
+    width:100%; margin-top:1rem; font-family:var(--font-b);
+    font-size:.85rem; font-weight:600; letter-spacing:.06em;
+    color:var(--bg-deep); background:var(--copper);
+    border:1px solid var(--copper); border-radius:2px;
+    padding:.75rem; cursor:pointer;
+    transition:background .3s var(--ease-out), opacity .2s;
+  }
+  .giris-btn:hover:not(:disabled){background:var(--copper-lt);border-color:var(--copper-lt)}
+  .giris-btn:disabled{opacity:.5;cursor:default}
+  .hata{
+    margin-top:1rem; font-size:.8rem; color:var(--hata); line-height:1.45;
+    text-align:left;
+  }
+  .hatirla{
+    display:flex; align-items:center; gap:.5rem; justify-content:flex-start;
+    margin-top:.9rem; font-size:.78rem; color:var(--white-muted); cursor:pointer;
+  }
+  .hatirla input{accent-color:var(--copper);width:.9rem;height:.9rem;cursor:pointer}
+  .geri-site{
+    display:block; margin-top:1.75rem; font-size:.75rem; color:var(--white-muted);
+    transition:color .3s var(--ease-out);
+  }
+  .geri-site:hover{color:var(--copper-lt)}
+
+  /* ---------- Yükleniyor ---------- */
+  .yukleniyor{
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:1.1rem; padding:1.5rem;
+  }
+  .spin{
+    width:34px;height:34px;border-radius:50%;
+    border:2px solid var(--bg-border); border-top-color:var(--copper);
+    animation:don .8s linear infinite;
+  }
+  @keyframes don{to{transform:rotate(360deg)}}
+  .yukleniyor p{font-size:.85rem;color:var(--white-muted);text-align:center}
+
+  /* ---------- Panel başlık ---------- */
+  .top{
+    position:sticky; top:0; z-index:50;
+    background:rgba(15,15,17,.88); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--bg-border);
+  }
+  .top-in{
+    max-width:1180px; margin:0 auto; padding:1rem 1.5rem;
+    display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap;
+  }
+  .brand{display:flex;flex-direction:column;gap:.15rem;margin-right:auto}
+  .brand h1{
+    font-family:var(--font-h); font-weight:600; font-size:1.6rem;
+    color:var(--white); letter-spacing:.01em; line-height:1.1;
+  }
+  .brand h1 strong{color:var(--copper);font-weight:700}
+  .brand .sub{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--white-muted)}
+  .meta{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+  .stamp{font-size:.78rem;color:var(--white-muted);white-space:nowrap}
+  .stamp b{color:var(--copper-pale);font-weight:500}
+  .btn{
+    font-family:var(--font-b); font-size:.8rem; font-weight:500;
+    color:var(--copper-pale); background:transparent;
+    border:1px solid var(--copper); border-radius:2px;
+    padding:.5rem .95rem; cursor:pointer;
+    transition:background .3s var(--ease-out), color .3s var(--ease-out);
+  }
+  .btn:hover{background:var(--copper);color:var(--bg-deep)}
+  .btn-sade{border-color:var(--bg-border);color:var(--white-muted)}
+  .btn-sade:hover{background:var(--bg-mid);color:var(--white-dim)}
+
+  /* ---------- Filtreler ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 1.5rem 4rem}
+  .controls{padding:1.6rem 0 1rem;display:flex;flex-direction:column;gap:1rem}
+  .row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .row-label{
+    font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--white-muted);margin-right:.35rem;min-width:3.5rem;
+  }
+  .chip{
+    font-family:var(--font-b);font-size:.8rem;font-weight:500;
+    color:var(--white-muted);background:var(--bg-mid);
+    border:1px solid var(--bg-border);border-radius:100px;
+    padding:.38rem .85rem;cursor:pointer;white-space:nowrap;
+    transition:all .25s var(--ease-out);
+  }
+  .chip:hover{color:var(--white-dim);border-color:var(--white-muted)}
+  .chip[aria-pressed="true"]{background:var(--copper);border-color:var(--copper);color:var(--bg-deep)}
+  .chip .n{opacity:.65;margin-left:.35rem;font-variant-numeric:tabular-nums}
+  .search{
+    flex:1;min-width:200px;
+    font-family:var(--font-b);font-size:.85rem;color:var(--white-dim);
+    background:var(--bg-mid);border:1px solid var(--bg-border);
+    border-radius:2px;padding:.55rem .8rem;outline:none;
+    transition:border-color .25s var(--ease-out);
+  }
+  .search:focus{border-color:var(--copper)}
+  .search::placeholder{color:var(--white-muted)}
+  .count{font-size:.78rem;color:var(--white-muted);padding:.25rem 0 1rem;border-bottom:1px solid var(--bg-border)}
+  .count b{color:var(--copper-pale);font-weight:500}
+
+  /* ---------- Haber listesi ---------- */
+  .list{display:flex;flex-direction:column}
+  .card{display:block;padding:1.25rem 0;border-bottom:1px solid var(--bg-border);transition:padding-left .35s var(--ease-out)}
+  .card:hover{padding-left:.6rem}
+  .card-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem}
+  .tag{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .5rem;border-radius:2px;white-space:nowrap}
+  .tag-trafik{color:var(--trafik);background:rgba(212,149,106,.12);border:1px solid rgba(212,149,106,.3)}
+  .tag-is    {color:var(--is);    background:rgba(123,167,212,.12);border:1px solid rgba(123,167,212,.3)}
+  .tag-yangin{color:var(--yangin);background:rgba(212,112,90,.12); border:1px solid rgba(212,112,90,.3)}
+  .il{font-size:.7rem;font-weight:600;letter-spacing:.06em;color:var(--copper-pale)}
+  .il::after{content:'·';margin-left:.5rem;color:var(--bg-border)}
+  .kaynak{font-size:.72rem;color:var(--white-muted)}
+  .zaman{font-size:.72rem;color:var(--white-muted);margin-left:auto;white-space:nowrap}
+  .card h2{
+    font-family:var(--font-h);font-weight:600;font-size:1.28rem;line-height:1.3;
+    color:var(--white);margin-bottom:.35rem;transition:color .25s var(--ease-out);
+  }
+  .card:hover h2{color:var(--copper-lt)}
+  .card p{font-size:.86rem;color:var(--white-muted);line-height:1.5}
+
+  .empty{text-align:center;padding:5rem 1rem;color:var(--white-muted)}
+  .empty h3{font-family:var(--font-h);font-size:1.5rem;color:var(--white-dim);font-weight:500;margin-bottom:.5rem}
+  .foot{
+    max-width:1180px;margin:0 auto;padding:1.5rem;border-top:1px solid var(--bg-border);
+    font-size:.72rem;color:var(--white-muted);text-align:center;line-height:1.7;
+  }
+
+  @media (max-width:640px){
+    .top-in{padding:.85rem 1rem}
+    .wrap{padding:0 1rem 3rem}
+    .brand h1{font-size:1.3rem}
+    .card h2{font-size:1.1rem}
+    .zaman{margin-left:0;width:100%}
+    .row-label{min-width:100%;margin-bottom:-.25rem}
+    .giris-kart{padding:2rem 1.4rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ GİRİŞ ============================ -->
+<section class="giris" id="ekran-giris">
+  <form class="giris-kart" id="form-giris" autocomplete="on">
+    <div class="logo">Türk<span>koç</span></div>
+    <div class="sub">Kaza Haber Paneli</div>
+
+    <label for="sifre">Personel Şifresi</label>
+    <input class="alan" id="sifre" name="password" type="password"
+           autocomplete="current-password" required autofocus>
+
+    <label class="hatirla">
+      <input type="checkbox" id="hatirla"> Bu cihazda beni hatırla
+    </label>
+
+    <button class="giris-btn" id="btn-giris" type="submit">Giriş Yap</button>
+    <div class="hata" id="giris-hata" hidden></div>
+
+    <a class="geri-site" href="/">← turkkoc.cloud ana sayfaya dön</a>
+  </form>
+</section>
+
+<!-- ========================= YÜKLENİYOR ========================== -->
+<section class="yukleniyor" id="ekran-yukleniyor" hidden>
+  <div class="spin"></div>
+  <p>Haber kaynakları taranıyor…<br>Bu işlem birkaç saniye sürebilir.</p>
+</section>
+
+<!-- =========================== PANEL ============================= -->
+<div id="ekran-panel" hidden>
+  <header class="top">
+    <div class="top-in">
+      <div class="brand">
+        <h1>Kaza <strong>Haber Paneli</strong></h1>
+        <span class="sub">Türkkoç Danışmanlık</span>
+      </div>
+      <div class="meta">
+        <span class="stamp">Son tarama: <b id="stamp">—</b></span>
+        <button class="btn" id="btn-yenile" type="button">Yenile</button>
+        <button class="btn btn-sade" id="btn-cikis" type="button">Çıkış</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="controls">
+      <div class="row">
+        <span class="row-label">Tür</span>
+        <button class="chip" data-f="tur" data-v="hepsi" aria-pressed="true">Tümü <span class="n"></span></button>
+        <button class="chip" data-f="tur" data-v="trafik" aria-pressed="false">Trafik <span class="n"></span></button>
+        <button class="chip" data-f="tur" data-v="is" aria-pressed="false">İş Kazası <span class="n"></span></button>
+        <button class="chip" data-f="tur" data-v="yangin" aria-pressed="false">Yangın / Patlama <span class="n"></span></button>
+      </div>
+      <div class="row">
+        <span class="row-label">Bölge</span>
+        <button class="chip" data-f="bolge" data-v="hepsi" aria-pressed="true">Tümü <span class="n"></span></button>
+        <button class="chip" data-f="bolge" data-v="dogu" aria-pressed="false">Doğu <span class="n"></span></button>
+        <button class="chip" data-f="bolge" data-v="ege" aria-pressed="false">Ege <span class="n"></span></button>
+      </div>
+      <div class="row">
+        <input class="search" id="q" type="search" placeholder="Başlık, il veya kaynak içinde ara…" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="count" id="count">—</div>
+    <main class="list" id="list"></main>
+  </div>
+
+  <footer class="foot">
+    Bu sayfa Türkkoç Danışmanlık iç kullanımı içindir.<br>
+    Haberler kamuya açık haber kaynaklarından otomatik derlenir; içerik ilgili yayın kuruluşuna aittir.
+  </footer>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* n8n uç noktası. Workflow kurulunca burayı güncelleriz. */
+  var API = 'https://ai.vashausmishka.com/webhook/turkkoc-haberler';
+
+  var TUR_AD = {trafik:'Trafik', is:'İş Kazası', yangin:'Yangın'};
+  var ANAHTAR = 'turkkoc_panel_anahtar';
+
+  var el = {
+    giris:      document.getElementById('ekran-giris'),
+    yukleniyor: document.getElementById('ekran-yukleniyor'),
+    panel:      document.getElementById('ekran-panel'),
+    form:       document.getElementById('form-giris'),
+    sifre:      document.getElementById('sifre'),
+    hatirla:    document.getElementById('hatirla'),
+    btnGiris:   document.getElementById('btn-giris'),
+    hata:       document.getElementById('giris-hata'),
+    liste:      document.getElementById('list'),
+    sayac:      document.getElementById('count'),
+    damga:      document.getElementById('stamp'),
+    arama:      document.getElementById('q')
+  };
+
+  var HABERLER = [];
+  var filtre = {tur:'hepsi', bolge:'hepsi', q:''};
+
+  /* ----------------------- yardımcılar ----------------------- */
+
+  function goster(ad){
+    el.giris.hidden      = ad !== 'giris';
+    el.yukleniyor.hidden = ad !== 'yukleniyor';
+    el.panel.hidden      = ad !== 'panel';
+  }
+
+  function kacar(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function neZaman(iso){
+    var t = Date.parse(iso);
+    if (isNaN(t)) return '';
+    var dk = Math.round((Date.now() - t) / 6e4);
+    if (dk < 1)  return 'az önce';
+    if (dk < 60) return dk + ' dk önce';
+    var sa = Math.round(dk / 60);
+    if (sa < 24) return sa + ' saat önce';
+    return Math.round(sa / 24) + ' gün önce';
+  }
+
+  function hataGoster(mesaj){
+    el.hata.textContent = mesaj;
+    el.hata.hidden = false;
+  }
+
+  /* Şifreyi saklama: "beni hatırla" işaretliyse cihazda kalıcı,
+     değilse yalnızca sekme açık olduğu sürece. */
+  function anahtarOku(){
+    try { return localStorage.getItem(ANAHTAR) || sessionStorage.getItem(ANAHTAR) || ''; }
+    catch(e){ return ''; }
+  }
+  function anahtarYaz(deger, kalici){
+    try {
+      (kalici ? localStorage : sessionStorage).setItem(ANAHTAR, deger);
+    } catch(e){ /* gizli sekmede depolama kapalı olabilir — sorun değil */ }
+  }
+  function anahtarSil(){
+    try { localStorage.removeItem(ANAHTAR); sessionStorage.removeItem(ANAHTAR); } catch(e){}
+  }
+
+  /* ----------------------- veri çekme ----------------------- */
+
+  /* Basit istek (form-urlencoded) kullanıyoruz; böylece tarayıcı
+     CORS ön-kontrolü (preflight) göndermiyor. */
+  function haberleriGetir(sifre){
+    return fetch(API, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'sifre=' + encodeURIComponent(sifre)
+    }).then(function(yanit){
+      if (yanit.status === 401 || yanit.status === 403) {
+        var e = new Error('yetki'); e.kod = 'yetki'; throw e;
+      }
+      if (!yanit.ok) {
+        var e2 = new Error('sunucu'); e2.kod = 'sunucu'; e2.durum = yanit.status; throw e2;
+      }
+      return yanit.json();
+    }).then(function(veri){
+      var dizi = Array.isArray(veri) ? veri : (veri && Array.isArray(veri.haberler) ? veri.haberler : null);
+      if (!dizi) { var e = new Error('bicim'); e.kod = 'bicim'; throw e; }
+      return dizi;
+    });
+  }
+
+  function butonuSerbestBirak(){
+    el.btnGiris.disabled = false;
+    el.btnGiris.textContent = 'Giriş Yap';
+  }
+
+  function girisDene(sifre, kalici, formdanMi){
+    goster('yukleniyor');
+    haberleriGetir(sifre).then(function(dizi){
+      HABERLER = dizi;
+      butonuSerbestBirak();
+      anahtarYaz(sifre, kalici);
+      el.damga.textContent = new Date().toLocaleString('tr-TR',
+        {day:'2-digit', month:'long', hour:'2-digit', minute:'2-digit'});
+      goster('panel');
+      guncelle();
+    }).catch(function(err){
+      goster('giris');
+      butonuSerbestBirak();
+      if (err.kod === 'yetki') {
+        anahtarSil();
+        hataGoster(formdanMi ? 'Şifre hatalı. Tekrar deneyin.'
+                             : 'Kayıtlı şifre artık geçerli değil. Lütfen yeniden girin.');
+      } else if (err.kod === 'sunucu') {
+        hataGoster('Sunucuya ulaşıldı ama hata döndü (' + err.durum + '). Biraz sonra tekrar deneyin.');
+      } else if (err.kod === 'bicim') {
+        hataGoster('Sunucudan beklenmeyen bir yanıt geldi. Yöneticiye bildirin.');
+      } else {
+        hataGoster('Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin veya birazdan tekrar deneyin.');
+      }
+    });
+  }
+
+  /* ----------------------- filtre / çizim ----------------------- */
+
+  function gecer(h){
+    if (filtre.tur   !== 'hepsi' && h.tur   !== filtre.tur)   return false;
+    if (filtre.bolge !== 'hepsi' && h.bolge !== filtre.bolge) return false;
+    if (filtre.q){
+      var yig = ((h.baslik||'') + ' ' + (h.il||'') + ' ' + (h.kaynak||'') + ' ' + (h.ozet||''))
+                  .toLocaleLowerCase('tr');
+      if (yig.indexOf(filtre.q) === -1) return false;
+    }
+    return true;
+  }
+
+  function sayilariYaz(){
+    document.querySelectorAll('.chip').forEach(function(c){
+      var alan = c.dataset.f, deger = c.dataset.v, eski = filtre[alan];
+      filtre[alan] = deger;
+      var n = HABERLER.filter(gecer).length;
+      filtre[alan] = eski;
+      c.querySelector('.n').textContent = n;
+    });
+  }
+
+  function ciz(){
+    var liste = HABERLER.filter(gecer).sort(function(a,b){
+      return Date.parse(b.tarih || 0) - Date.parse(a.tarih || 0);
+    });
+
+    el.sayac.innerHTML = liste.length
+      ? '<b>' + liste.length + '</b> haber gösteriliyor · toplam ' + HABERLER.length + ' kayıt tarandı'
+      : 'Filtreye uyan haber yok';
+
+    if (!liste.length){
+      el.liste.innerHTML =
+        '<div class="empty"><h3>Sonuç bulunamadı</h3>' +
+        '<p>Filtreleri gevşetmeyi veya arama kutusunu temizlemeyi deneyin.</p></div>';
+      return;
+    }
+
+    el.liste.innerHTML = liste.map(function(h){
+      var tur = TUR_AD[h.tur] ? h.tur : 'trafik';
+      return '' +
+        '<a class="card" href="' + kacar(h.link) + '" target="_blank" rel="noopener noreferrer">' +
+          '<div class="card-top">' +
+            '<span class="tag tag-' + tur + '">' + kacar(TUR_AD[tur]) + '</span>' +
+            (h.il ? '<span class="il">' + kacar(h.il) + '</span>' : '') +
+            '<span class="kaynak">' + kacar(h.kaynak) + '</span>' +
+            '<span class="zaman">' + kacar(neZaman(h.tarih)) + '</span>' +
+          '</div>' +
+          '<h2>' + kacar(h.baslik) + '</h2>' +
+          (h.ozet ? '<p>' + kacar(h.ozet) + '</p>' : '') +
+        '</a>';
+    }).join('');
+  }
+
+  function guncelle(){ sayilariYaz(); ciz(); }
+
+  /* ----------------------- olaylar ----------------------- */
+
+  el.form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var sifre = el.sifre.value.trim();
+    if (!sifre) return;
+    el.hata.hidden = true;
+    el.btnGiris.disabled = true;
+    el.btnGiris.textContent = 'Kontrol ediliyor…';
+    girisDene(sifre, el.hatirla.checked, true);
+  });
+
+  document.getElementById('btn-yenile').addEventListener('click', function(){
+    var s = anahtarOku();
+    if (s) girisDene(s, false, false); else goster('giris');
+  });
+
+  document.getElementById('btn-cikis').addEventListener('click', function(){
+    anahtarSil();
+    HABERLER = [];
+    el.sifre.value = '';
+    el.hata.hidden = true;
+    goster('giris');
+  });
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      var alan = c.dataset.f;
+      filtre[alan] = c.dataset.v;
+      document.querySelectorAll('.chip[data-f="' + alan + '"]').forEach(function(o){
+        o.setAttribute('aria-pressed', String(o === c));
+      });
+      guncelle();
+    });
+  });
+
+  var bekle;
+  el.arama.addEventListener('input', function(e){
+    clearTimeout(bekle);
+    var v = e.target.value.toLocaleLowerCase('tr').trim();
+    bekle = setTimeout(function(){ filtre.q = v; guncelle(); }, 140);
+  });
+
+  /* ----------------------- açılış ----------------------- */
+
+  var kayitli = anahtarOku();
+  if (kayitli) girisDene(kayitli, false, false); else goster('giris');
+})();
+</script>
+</body>
+</html>
